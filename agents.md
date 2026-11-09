@@ -1,40 +1,67 @@
 # Agent Instructions
 
-You are working in the `motion-graphics` repository. Help create polished, intentional motion graphics and maintain this repository's structure.
+You are working in the `motion-graphics` repository. Your job is to create polished, intentional motion graphics while preserving the user's identity, voice, brand, and project context.
 
-## Repository layout
+## Read these files first
 
-- `raw/`: Original input assets such as footage, images, audio, fonts, and source files.
-- `reference/`: Inspiration, visual references, storyboards, moodboards, and creative direction.
-- `exports/`: Rendered previews and final deliverables.
-- `README.md`: Project overview and repository conventions.
-- `agents.md`: These instructions.
+Before doing project work, read:
 
-Do not rename or repurpose these top-level locations.
+1. `README.md` for repository conventions.
+2. `setup.md` for the media toolchain and verification requirements.
+3. `taste.md` for reference analysis and creative direction.
 
-## Before starting
+Do not assume tools are installed just because they are documented. Inspect the current environment and verify them.
+
+## Toolchain responsibilities
+
+Use the tools according to these roles:
+
+- **Remotion:** Main programmatic video composition and rendering with React.
+- **HyperFrames:** HTML/GSAP-based motion-graphics compositions, animation systems, and previews.
+- **FFmpeg / FFprobe:** Cutting, transcoding, audio processing, media inspection, and final encoding.
+- **Whisper:** Speech transcription and caption generation.
+- **yt-dlp:** Downloading reference media only when the user is permitted to download it and platform terms allow it.
+
+Choose the appropriate renderer for each job. Do not force both Remotion and HyperFrames into every project. Keep the source project editable and make the rendering pipeline reproducible.
+
+## Setup and verification
+
+When asked to set up the environment:
+
+1. Follow `setup.md` from the repository root.
+2. Install Node packages locally in this repository and Python packages inside `.venv/` where possible.
+3. Install FFmpeg using an appropriate system package manager or approved local binary. Do not pretend FFmpeg is installed in the repository if it is a system dependency.
+4. Run the CLI checks and actual smoke tests described in `setup.md`.
+5. Report each tool as Pass, Fail, or Blocked. Never say all five work unless all five have passed real smoke tests.
+
+Do not overwrite existing project configuration or package manifests without inspecting them first. Do not run a project scaffolder that rejects an existing Git repository at the repository root.
+
+## Before creating a video
 
 1. Inspect the repository and read the relevant project files.
-2. Review available assets in `raw/` and creative direction in `reference/`.
-3. Identify the intended platform, aspect ratio, resolution, frame rate, duration, and output format. If the brief does not specify them, choose sensible defaults and state those assumptions.
-4. Check the existing stack and conventions before introducing dependencies or restructuring files.
+2. Review `raw/` for source assets and `reference/` for creative references.
+3. Follow `taste.md`: analyze pacing, captions, colour, motion, and sound before designing.
+4. Preserve the user's facts, wording, voice, brand, and project identity. Never invent personal or project claims.
+5. Confirm the intended platform, aspect ratio, resolution, frame rate, duration, and output format. If unspecified, use sensible defaults and state them.
+6. Create an original direction inspired by abstract reference principles, never a direct copy.
 
 ## Creative standards
 
 - Build around a clear visual concept and hierarchy.
-- Use deliberate typography, spacing, composition, color, and contrast.
-- Make animation purposeful. Use easing, anticipation, follow-through, and consistent motion language where appropriate.
-- Keep transitions coherent and avoid excessive effects, random gradients, generic templates, and other visual clutter.
+- Use deliberate typography, spacing, composition, colour, and contrast.
+- Make animation purposeful. Use easing, anticipation, follow-through, and a consistent motion language.
+- Keep transitions coherent. Avoid excessive effects, random gradients, generic templates, and visual clutter.
 - Ensure text remains readable at the target display size.
-- Respect supplied brand assets and references. Do not invent logos or alter provided assets without a clear reason.
-- Prefer reusable components, tokens, and animation helpers over duplicated one-off implementations.
+- Respect supplied brand assets. Do not invent logos or alter provided assets without a clear reason.
+- Prefer reusable components, design tokens, and animation helpers over duplicated one-off implementations.
 
 ## Implementation standards
 
-- Choose tools based on the task. HTML, CSS, JavaScript, SVG, Canvas, and WebGL are suitable for browser-based motion graphics. Use an existing project framework when one is already established.
+- Choose Remotion or HyperFrames based on the project requirements; use both only when there is a clear integration reason.
+- Use FFmpeg for media operations that are better handled outside the renderer.
 - Keep source code and editable project files outside `exports/`.
 - Use clear filenames and organize project-specific work into descriptive subdirectories without changing the required top-level structure.
-- Avoid unnecessary dependencies. Explain any significant new dependency.
+- Avoid unnecessary dependencies. Explain significant new dependencies.
 - Keep generated assets reproducible when practical.
 
 ## Rendering and quality assurance
@@ -54,8 +81,8 @@ Never claim that a render or test passed unless it was actually run and inspecte
 ## Git and asset handling
 
 - Do not overwrite or delete original files in `raw/`.
-- Do not commit secrets, credentials, private client data, or unrelated files.
-- Avoid committing huge render files or caches. Use Git LFS or external storage when appropriate.
+- Do not commit secrets, credentials, private client data, virtual environments, dependency folders, caches, or unrelated files.
+- Avoid committing huge reference downloads or rendered videos. Use Git LFS or external storage when appropriate.
 - Keep commits focused and use clear commit messages.
 - Update `README.md` when project structure, setup, or usage changes.
 
