@@ -2,6 +2,11 @@
 
 This repository is an **AI-neutral motion-graphics studio**, not a gallery or a paid-agent subscription. Follow the user's current brief and your host's higher-priority policies. Tool names/capabilities vary: adapt these instructions, never fabricate tools, reviews or results.
 
+## Flow selection
+- **Narrated film** → follow `docs/FLOW.md` (voice first, then visuals, then PostGen delivery). Start with `docs/INTAKE.md`.
+- **Silent/solo film** → the eight steps in `docs/WORKFLOW.md`.
+- Never spend a paid voice generation before the script is final and the user has agreed to it.
+
 ## Optional role-split mode
 Default is solo: the active assistant can own the whole film. If a project explicitly declares `workflowMode: visual-handoff`, read its AGENTS.md and CLAUDE-HANDOFF.md first. Those provide a compact frozen brief and a narrower edit scope. The visual specialist does NOT repeat story/research/audio/render/delivery work assigned to the orchestrator, and need not load every general document/skill unless blocked. See docs/DELEGATION.md. This mode is opt-in per project, not a requirement to use Claude on every film.
 

@@ -1,5 +1,8 @@
 # Repeatable workflow, original results
 
+> **Narrated films use [FLOW.md](FLOW.md)**: script → voice (PostGen) → Claude visual ZIP → render →
+> PostGen draft post. The steps below remain the solo path and the design/QA detail for both.
+
 ## 1. Scope and facts
 Confirm the message, audience, platform, format, duration, narration and supplied assets. Ask only consequential missing questions. Record verified claims and links, rights, prohibited treatments and budget. Never invent product status or user credentials. If a supplied performance exceeds a rough duration target, agree how to conform it; do not silently speed it up.
 

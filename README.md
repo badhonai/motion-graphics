@@ -56,8 +56,14 @@ Excluded from Git: `local/`, `raw/`, `exports/`, `reference/`, `renders/`, suppl
 
 **Brief → three concepts → art direction → scene/cue table → key states → motion → sound → correction loops → final encode/QA → honest delivery.**
 
-- [Full workflow](docs/WORKFLOW.md)
+- [Narrated-film flow (current)](docs/FLOW.md)
+- [Intake questions](docs/INTAKE.md)
+- [Solo workflow](docs/WORKFLOW.md)
 - [Optional visual-specialist handoff](docs/DELEGATION.md)
+
+PostGen helpers: `tools/postgen/voice.mjs` (fetch narration from a PostGen project) and
+`tools/postgen/post.mjs` (upload the final MP4 as a draft post). Both read `POSTGEN_API_KEY` from the
+environment only. See [docs/FLOW.md](docs/FLOW.md).
 
 Review helper: `node tools/stills.mjs <id> --frames=0,240,900 --scale=0.5` renders selected stills into ignored `.cache/review/<id>/`; `python3 tools/contact_sheet.py .cache/review/<id> --cols=3 --guides` builds a labelled contact sheet with content-margin guides. Review-only, never a deliverable.
 - [Design principles](docs/DESIGN.md)
