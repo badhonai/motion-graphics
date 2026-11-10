@@ -56,4 +56,4 @@ The last stored frame occurs at T − 1/fps, not at T. A natural periodic animat
 
 ## Later production verification
 
-After authorization: inspect environment → run type/bundle check → render a short excerpt → random/reverse/fresh seeks → inspect transition neighborhoods → decode the encoded output. Preserve the existing benchmark result as workload-specific; do not rerun a heavy benchmark or render during research.
+After authorization: inspect environment → run type/bundle check → render a short excerpt → random/reverse/fresh seeks → inspect transition neighborhoods → decode the encoded output. Treat historical benchmark findings as workload-specific. Run a new heavy benchmark only when authorized, with the same workload and clearly recorded machine/runtime settings.

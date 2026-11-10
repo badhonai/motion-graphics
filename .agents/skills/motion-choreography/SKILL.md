@@ -57,4 +57,4 @@ Motion blur belongs to shutter-integrated motion, not as a generic entrance. Sam
 
 ## Provenance
 
-Original project synthesis informed by hughminhphan/motion-kit, LottieFiles/motion-design-skill, whaleyxbt/claude-motion, Liamrjohnston's cinematic-camera skill, and the creator frame studies. Exact upstream files are indexed in the research pack. No upstream scripts were executed during collection.
+Original project synthesis informed by hughminhphan/motion-kit, LottieFiles/motion-design-skill, whaleyxbt/claude-motion, Liamrjohnston's cinematic-camera skill, and the creator frame studies. Pinned upstream entrypoints and licenses are indexed in `docs/research/source-index.json`; the full research pack is intentionally not bundled. No upstream scripts were executed during collection.
