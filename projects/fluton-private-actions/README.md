@@ -19,7 +19,8 @@ Silent full render completed and inspected; five visual defects corrected by the
 
 ## Still pending
 - Claude's seven-scene visual implementation. src/Film.tsx is deliberately a clear placeholder, not someone else's work presented as Claude's.
-- Voice selection/recording, recording-aligned captions, original score and final audio mix. Nothing has been synthesized or billed.
+- **Voice:** blocked on an ElevenLabs API key (requested voice `dmWfLQZJq7wNPv9WmtiM`). No narration generated; nothing billed.
+- Original score and sound design: **done** (`production/score.wav`, `tools/score.py`, `production/cues.json`).
 - Full production render, final-encoded frame review and human AV viewing/listening.
 
 ## Run from repository root

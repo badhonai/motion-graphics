@@ -27,9 +27,9 @@
       "foreground": "#F8FAFC",
       "headline": "MORE THAN YOU INTEND.",
       "kicker": "PUBLIC ACTIVITY",
-      "voiceover": "Public chains can reveal more than you intend.",
+      "voiceover": "Every action leaves a public trace.",
       "captionLines": [
-        "Public chains can reveal more than you intend."
+        "Every action leaves a public trace."
       ],
       "visualMechanism": "An observer scan turns three public action cards into a readable trail; use no balances, addresses or fake UI.",
       "keyStateFrame": 72
@@ -119,11 +119,10 @@
       "headline": "PUBLIC RAILS. PRIVATE ACTIONS.",
       "kicker": "fluton.io",
       "voiceover": "Fluton. Public rails. Private actions. Explore the testnet.",
-      "captionLines": [
-        "Fluton. Public rails. Private actions. Explore the testnet."
-      ],
+      "captionLines": [],
       "visualMechanism": "Use the exact white wordmark and optional exact small logomark. Flat graphic resolution; no repeating the old dimensional logo-docking finale. Settle by frame 1680 and hold through 1799.",
       "keyStateFrame": 1620
     }
-  ]
+  ],
+  "captionMode": "supporting on-screen lines (no narration attached yet); replace with recording-aligned captions once a voice exists"
 }

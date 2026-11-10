@@ -21,7 +21,7 @@ export const Brand:React.FC<{f:number}>=({f})=>{
   for(let x=96;x<1824;x+=48) ties.push(<rect key={x} x={x} y={RAIL_Y+40} width={8} height={14} rx={3} fill={C.white} opacity={0.28}/>);
   return <AbsoluteFill>
     <svg width={1920} height={1080} viewBox="0 0 1920 1080" style={{position:'absolute',left:0,top:0}}>
-      <Headline id="s7" lines={['PUBLIC RAILS.','PRIVATE ACTIONS.']} x={960} y={470} size={96} f={f} start={22} fill={C.white} fills={[C.white,C.green]} anchor="middle" lh={105}/>
+      <Headline id="s7" lines={['PUBLIC RAILS.','PRIVATE ACTIONS.']} x={960} y={452} size={96} f={f} start={22} fill={C.white} fills={[C.white,C.green]} anchor="middle" lh={118}/>
 
       {/* two public rails */}
       <g opacity={rails}>
