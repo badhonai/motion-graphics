@@ -50,7 +50,8 @@ export const Fhe:React.FC<{f:number}>=({f})=>{
   // conveyor ties
   const ties:React.ReactNode[]=[];
   for(let x=72;x<1860;x+=48) ties.push(<rect key={x} x={x} y={RAIL+T/2+8} width={10} height={16} rx={3} fill={C.white} opacity={0.35}/>);
-  const railP=EASE.out(prog(f,0,28));
+  const railP=lerp(0.55,1,EASE.out(prog(f,-6,18))); // machinery pre-set at the cut, then settles
+  const seat=EASE.out(prog(f,-4,16));
   const labelP=tw(f,120,18,EASE.out);
   // ADD hides everything between its mouths; CMP likewise. Two clip regions keep occlusion explicit.
   return <svg width={1920} height={1080} viewBox="0 0 1920 1080">
@@ -59,7 +60,7 @@ export const Fhe:React.FC<{f:number}>=({f})=>{
       <clipPath id="fheRoof"><rect x={0} y={0} width={1920} height={HY+6}/></clipPath>
     </defs>
     <Kicker text={S.kicker} x={96} y={170} f={f} start={2} fill="rgba(248,250,252,0.8)" bar={C.white}/>
-    <Headline id="s3" lines={['COMPUTE ON','ENCRYPTED VALUES.']} x={96} y={268} size={92} f={f} start={6} fill={C.white}/>
+    <Headline id="s3" lines={['COMPUTE ON','ENCRYPTED VALUES.']} x={96} y={268} size={92} f={f} start={2} fill={C.white}/>
 
     <g opacity={railP}>
       <rect x={96} y={RAIL+T/2+2} width={1728*railP} height={6} rx={3} fill={C.white}/>
@@ -73,10 +74,11 @@ export const Fhe:React.FC<{f:number}>=({f})=>{
       {sumVisible&&<Item s={pop(sw)} ox={sCx} oy={RAIL}><Tile cx={sCx} cy={RAIL} seed={21} size={T*1.12}/></Item>}
       {rVisible&&<Item o={1}><Tile cx={rX} cy={RAIL} seed={34} size={T} strong/></Item>}
     </g>
+    {thVisible&&<line x1={1360} x2={1360} y1={thY+50} y2={HY} stroke={C.white} strokeWidth={4} strokeDasharray="4 14" strokeLinecap="round" opacity={0.65}/>}
     <g clipPath="url(#fheRoof)">{thVisible&&<Item s={thPop} ox={1360} oy={thY}><Tile cx={1360} cy={thY} seed={55} size={88}/></Item>}</g>
 
-    <Housing m={ADD} icon="plus" spin={addWork*90} squeeze={1-0.07*Math.sin(Math.PI*addWork)} label="ADD"/>
-    <Housing m={CMP} icon="gte" spin={0} squeeze={1-0.07*Math.sin(Math.PI*cmpWork)} label="COMPARE"/>
+    <Housing m={ADD} icon="plus" spin={addWork*90} squeeze={(1-0.07*Math.sin(Math.PI*addWork))*(0.94+0.06*seat)} label="ADD"/>
+    <Housing m={CMP} icon="gte" spin={0} squeeze={(1-0.07*Math.sin(Math.PI*cmpWork))*(0.94+0.06*seat)} label="COMPARE"/>
 
     <Item o={labelP} y={(1-labelP)*16}>
       <text x={96} y={800} fontSize={38} fontWeight={900} fill={C.white} style={{letterSpacing:'0.04em'}}>SEALED IN / SEALED OUT</text>

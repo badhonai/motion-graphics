@@ -37,8 +37,8 @@ const Receipt:React.FC<{x:number;rows:number[]}>=({x,rows})=>
 
 /** Scene 6: a side section. Values are visible at the public entry/exit, sealed only between them. */
 export const Boundaries:React.FC<{f:number}>=({f})=>{
-  const ground=EASE.out(prog(f,6,34));
-  const grow=EASE.out(prog(f,16,34));
+  const ground=EASE.out(prog(f,-26,30));
+  const grow=EASE.out(prog(f,-18,34));
   const tags=EASE.out(prog(f,52,16));
   // token path: approach, pause at the entry wall, cross the interior, pause, leave
   const tx=f<122?tw(f,70,52,EASE.inOut,170,WALL_L+12):f<206?tw(f,134,72,EASE.inOut,WALL_L+12,WALL_R-12):tw(f,214,48,EASE.out,WALL_R-12,1700);

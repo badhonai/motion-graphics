@@ -58,6 +58,8 @@ Excluded from Git: `local/`, `raw/`, `exports/`, `reference/`, `renders/`, suppl
 
 - [Full workflow](docs/WORKFLOW.md)
 - [Optional visual-specialist handoff](docs/DELEGATION.md)
+
+Review helper: `node tools/stills.mjs <id> --frames=0,240,900 --scale=0.5` renders selected stills into ignored `.cache/review/<id>/`; `python3 tools/contact_sheet.py .cache/review/<id> --cols=3 --guides` builds a labelled contact sheet with content-margin guides. Review-only, never a deliverable.
 - [Design principles](docs/DESIGN.md)
 - [QA and review limits](docs/QA.md)
 - [Research and sources](docs/research/README.md)

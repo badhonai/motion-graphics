@@ -54,8 +54,12 @@ export const Intent:React.FC<{f:number}>=({f})=>{
         const x=lerp(c.x,tx,k), y=lerp(c.y,ty,k);
         const o=i===1?1:1-prog(f,24,16);
         const s=i===1?lerp(1,520/CARD.w,merge):lerp(1,0.86,merge);
+        // card contents dissolve before the faces stack, so labels/icons never collide mid-merge
+        const faceOnly=clamp(1-merge*2.4);
         return <Item key={i} o={o} s={s} ox={x+CARD.w/2} oy={y+CARD.h/2}>
-          <LitCard x={x} y={y} label={i===1&&swapLabel>0.5?'INTENT':c.label} glyph={c.glyph} face={i===1?(toInk>0.5?C.ink:C.white):C.white} ink={i===1&&toInk>0.5?C.white:C.ink}/>
+          {i===1
+            ? <LitCard x={x} y={y} label={swapLabel>0.5?'INTENT':c.label} glyph={c.glyph} face={toInk>0.5?C.ink:C.white} ink={toInk>0.5?C.white:C.ink}/>
+            : <><rect x={x} y={y} width={CARD.w} height={CARD.h} rx={28} fill={C.white}/><Item o={faceOnly}><Glyph kind={c.glyph} cx={x+CARD.w/2} cy={y+98} color={C.ink}/><text x={x+CARD.w/2} y={y+216} fontSize={40} fontWeight={900} textAnchor="middle" fill={C.ink} style={{letterSpacing:'0.06em'}}>{c.label}</text></Item></>}
         </Item>;
       })}
     </g>}

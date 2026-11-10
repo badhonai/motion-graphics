@@ -25,7 +25,7 @@ const Note:React.FC<{cx:number;cy:number;seed:number}>=({cx,cy,seed})=>
 
 /** Scene 5: a vertical join-split. Two input notes enter slots; three outputs leave different slots. */
 export const Notes:React.FC<{f:number}>=({f})=>{
-  const topP=EASE.out(prog(f,0,30)), botP=EASE.out(prog(f,8,30)), gP=EASE.out(prog(f,20,26));
+  const topP=EASE.out(prog(f,-9,30)), botP=EASE.out(prog(f,-2,30)), gP=EASE.out(prog(f,8,26));
   const pop=(a:number)=>EASE.back(prog(f,a,18));
   // inputs: slide down their guide lines into the slots (hidden once fully inside the gadget)
   const i1=tw(f,80,48,EASE.in,ROW_IN,GY+GH/2);

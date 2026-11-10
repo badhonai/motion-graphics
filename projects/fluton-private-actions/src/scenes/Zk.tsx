@@ -16,8 +16,8 @@ const hexPts=(cx:number,cy:number,r:number)=>Array.from({length:6},(_,i)=>{const
 
 /** Scene 3→4 contrast: line-art chamber and gate, one camera push, one small proof crossing the gap. */
 export const Zk:React.FC<{f:number}>=({f})=>{
-  const ringP=EASE.out(prog(f,4,38));
-  const vP=EASE.out(prog(f,20,38));
+  const ringP=lerp(0.5,1,EASE.out(prog(f,-8,30)));
+  const vP=lerp(0.55,1,EASE.out(prog(f,-4,30)));
   const spin=prog(f,56,120)*70+Math.max(0,f-56)*0.35;
   const door=EASE.inOut(prog(f,84,16))*(1-EASE.inOut(prog(f,196,14)));
   const form=EASE.back(prog(f,100,22));
@@ -39,11 +39,11 @@ export const Zk:React.FC<{f:number}>=({f})=>{
   }
   return <svg width={1920} height={1080} viewBox="0 0 1920 1080">
     <Kicker text={S.kicker} x={96} y={170} f={f} start={2} fill="rgba(248,250,252,0.75)" bar={C.green}/>
-    <Headline id="s4" lines={[S.headline]} x={96} y={292} size={112} f={f} start={6} fill={C.white}/>
+    <Headline id="s4" lines={[S.headline]} x={96} y={292} size={112} f={f} start={1} fill={C.white}/>
 
     <g transform={`translate(${-60*cam} ${0}) translate(1100 600) scale(${1+0.06*cam}) translate(-1100 -600)`}>
       {/* chamber: closed ring set, opaque core, a single port */}
-      <circle cx={CH[0]} cy={CH[1]} r={R} fill={C.ink} stroke={C.white} strokeWidth={6} pathLength={1} strokeDasharray="1" strokeDashoffset={1-ringP} transform={`rotate(-90 ${CH[0]} ${CH[1]})`}/>
+      <circle cx={CH[0]} cy={CH[1]} r={R} fill={C.ink} stroke={C.white} strokeWidth={6} opacity={0.35+0.65*ringP} transform={`rotate(-90 ${CH[0]} ${CH[1]})`}/>
       <g transform={`rotate(${spin} ${CH[0]} ${CH[1]})`} opacity={ringP}>
         <circle cx={CH[0]} cy={CH[1]} r={R-30} fill="none" stroke={C.white} strokeWidth={14} pathLength={12} strokeDasharray="0.78 0.22" opacity={0.9}/>
       </g>

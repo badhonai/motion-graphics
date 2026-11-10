@@ -6,22 +6,22 @@ import {BRAND,WORDMARK_ASPECT} from '../brand';
 import {Item} from '../components/Item';
 import {Headline} from '../components/Headline';
 import {SealedTile} from '../components/Sealed';
-import {C,EASE,prog,tw} from '../visual-system';
+import {C,EASE,lerp,prog,tw} from '../visual-system';
 
 const S=film.scenes[6];
-const RAIL_Y=650, FINAL=[240,600,960,1320,1680], TILE=48;
+const RAIL_Y=706, FINAL=[240,600,960,1320,1680], TILE=48;
 const WM_W=720, WM_H=WM_W/WORDMARK_ASPECT;
 
 /** Scene 7: private actions ride public rails; the exact wordmark and CTA settle by local frame 180 and hold. */
 export const Brand:React.FC<{f:number}>=({f})=>{
-  const rails=EASE.out(prog(f,0,24));
-  const wm=EASE.out(prog(f,16,34));
+  const rails=lerp(0.7,1,EASE.out(prog(f,-18,20)));
+  const wm=EASE.out(prog(f,-10,34));
   const cta=EASE.out(prog(f,96,22));
-  const ties:React.ReactNode[]=[];
+  const ties:React.ReactNode[]=[]; // rails sit clear of the second headline baseline
   for(let x=96;x<1824;x+=48) ties.push(<rect key={x} x={x} y={RAIL_Y+40} width={8} height={14} rx={3} fill={C.white} opacity={0.28}/>);
   return <AbsoluteFill>
     <svg width={1920} height={1080} viewBox="0 0 1920 1080" style={{position:'absolute',left:0,top:0}}>
-      <Headline id="s7" lines={['PUBLIC RAILS.','PRIVATE ACTIONS.']} x={960} y={470} size={96} f={f} start={44} fill={C.white} fills={[C.white,C.green]} anchor="middle" lh={105}/>
+      <Headline id="s7" lines={['PUBLIC RAILS.','PRIVATE ACTIONS.']} x={960} y={470} size={96} f={f} start={22} fill={C.white} fills={[C.white,C.green]} anchor="middle" lh={105}/>
 
       {/* two public rails */}
       <g opacity={rails}>
@@ -31,13 +31,13 @@ export const Brand:React.FC<{f:number}>=({f})=>{
       </g>
       {/* sealed private actions ride the rails, decelerating to rest by frame 172 */}
       {FINAL.map((fx,i)=>{
-        const x=fx-900*(1-EASE.out(prog(f,i*8,140)));
+        const x=fx-900*(1-EASE.out(prog(f,-24+i*8,146)));
         return <SealedTile key={i} x={x-TILE/2} y={RAIL_Y-3-TILE} size={TILE} seed={40+i*3} bg={C.ink} fg={C.white} stroke={C.white} sw={3}/>;
       })}
 
       <Item x={(1-cta)*16} o={cta}>
         <text x={872} y={806} fontSize={48} fontWeight={900} fill={C.white} style={{letterSpacing:'0.02em'}}>{S.kicker}</text>
-        <rect x={872} y={820} width={236*cta} height={6} rx={3} fill={C.green}/>
+        <rect x={872} y={820} width={206*cta} height={6} rx={3} fill={C.green}/>
       </Item>
     </svg>
     {/* exact bundled marks: HTML Img so Remotion waits for the assets; transforms are frame-derived */}

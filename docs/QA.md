@@ -18,3 +18,6 @@ Optional `tools/master-audio.py` takes an existing picture and PCM mix for two-p
 
 ## Required report language
 Separate: commands/tests actually run; frames actually inspected; audio measurements; uninterrupted AV viewing/listening (if any); independent review (if any); remaining uncertainty. Automatic ASR, contact sheets, full decoding and signal metrics do not prove perception, musical quality or professional approval. Never claim a seamless loop solely because an endpoint PNG matches. Never invent a review score as a pass gate.
+
+## Sampled stills and contact sheets
+`node tools/stills.mjs <id> --frames=… --scale=0.5` renders chosen frames in one browser session; `python3 tools/contact_sheet.py <dir> --guides` labels them and overlays the 96/1824/120/840/880 safe-area lines. Use them to inspect handoffs, contacts, occlusion and cuts. They complement, and never replace, the encoded QA report or honest statements about continuous playback.

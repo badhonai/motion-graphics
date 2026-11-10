@@ -14,6 +14,9 @@ The short copy/paste message is in `CLAUDE-PROMPT.md` (also printed in the orche
 - Shared local Inter, full-bleed background wrapper, content-safe clipping, draft caption infrastructure and final testnet notice.
 - Prepared voice script (53 words), sound cue plan, review frame list and orchestrator return plan.
 
+## First review done
+Silent full render completed and inspected; five visual defects corrected by the orchestrator (see [production/REVIEW-01.md](production/REVIEW-01.md)). The film is a silent picture plus draft planning captions, not a delivered film.
+
 ## Still pending
 - Claude's seven-scene visual implementation. src/Film.tsx is deliberately a clear placeholder, not someone else's work presented as Claude's.
 - Voice selection/recording, recording-aligned captions, original score and final audio mix. Nothing has been synthesized or billed.
