@@ -89,3 +89,16 @@ this repo** — PostGen holds the delivered video.
 - Claude returning whole-project ZIPs, dependencies, renders or audio.
 - A film delivered as "done" without inspecting the encoded output.
 - Publishing a post yourself (drafts only) or claiming a render that never ran.
+
+## Troubleshooting the voice step
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| HTTP **403 + Cloudflare "Error 1010"** | Bot filter rejects requests with no browser UA | the helpers send a browser `User-Agent`; if you call the API yourself, set one (or `POSTGEN_USER_AGENT`) |
+| **502** `Free users cannot use library voices via the API` | ElevenLabs **free** plan refuses `professional`/`library` voices over the API; only `premade`/`cloned` work | `--list-voices` shows which are usable, then `--voice=<id>`; or upgrade the plan |
+| **400** `voice is not configured` | no key saved in PostGen → Settings → Voiceover | save the key there (never here) |
+| **409** `script already generated` | 2 attempts per identical script per 24h | edit the script (edits are a new script) |
+| **429** `daily voiceover limit reached` | 20 successes/day | wait for the next UTC day |
+
+Always let the helper's **preflight** run: it validates key, plan, voice and caps for free, and refuses to
+spend when the provider would reject the voice anyway.
