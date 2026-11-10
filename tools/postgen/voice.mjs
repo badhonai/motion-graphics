@@ -35,7 +35,14 @@ const scriptPath=path.join(dir,opt.script||'production/voiceover.txt');
 const text=fs.readFileSync(scriptPath,'utf8').trim();
 if(!text)throw new Error('Narration script is empty.');
 // Always preflight for free: configuration, plan, voice usability and remaining caps.
-const pre=await generateVoiceover(pgProject,text,{voiceId:opt.voice,dryRun:true}).catch(e=>{throw new Error('preflight failed: '+e.message)});
+let pre;
+try{
+  pre=await generateVoiceover(pgProject,text,{voiceId:opt.voice,dryRun:true});
+}catch(e){
+  console.error('\nPreflight stopped before spending anything:\n  '+e.message.split(' — ')[0]);
+  console.error('\nRun with --list-voices to see which voices this plan can use through the API.');
+  process.exit(1);
+}
 console.log('preflight:',JSON.stringify({voice:pre.voice_name,voice_id:pre.voice_id,category:pre.voice_category,plan:pre.plan_tier,chars:pre.characters,caps:pre.caps}));
 if(!opt.confirm){
   console.log(`\nScript (${text.length} chars):\n\n${text}\n\nDry run only — nothing generated. Re-run with --confirm to spend 1 generation.`);
