@@ -17,7 +17,12 @@ import {Brand} from './scenes/Brand';
 export const Film:React.FC=()=>{
   const frame=useCurrentFrame();
   const scene=getSceneAtFrame(frame);
-  const f=frame-scene.startFrame;
+  const actual=scene.endFrameExclusive-scene.startFrame;
+  const authored=scene.authoredFrames??actual;
+  // Each scene's choreography was authored for `authored` frames. Speed it up when the
+  // narration gives it a shorter window; never slow it down (longer windows just hold).
+  const speed=Math.min(1,authored/Math.max(1,actual));
+  const f=Math.round((frame-scene.startFrame)*speed);
   const Scene={exposure:Exposure,intent:Intent,fhe:Fhe,zk:Zk,notes:Notes,boundaries:Boundaries,brand:Brand}[scene.id as 'exposure'|'intent'|'fhe'|'zk'|'notes'|'boundaries'|'brand'];
   return <div style={{position:'absolute',left:0,top:0,width:1920,height:1080}}><Scene f={f}/></div>;
 };
