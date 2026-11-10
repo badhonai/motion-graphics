@@ -1,28 +1,45 @@
-# Node.js
+# Local production archive, media and render output are intentionally NOT published.
+/local/
+/raw/
+/exports/
+/reference/
+/renders/
+/tmp/
+/temp/
+.cache/
+.cache-*/
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-pnpm-debug.log*
-
-# Python
 .venv/
 __pycache__/
 *.py[cod]
-.pytest_cache/
-
-# Tool and model caches
-.cache/
-.cache-whisper/
-whisper_models/
-*.pt
-
-# Temporary media and renders
-tmp/
-temp/
-*.tmp
 *.log
-
-# OS/editor
+*.tmp
+*.tsbuildinfo
+# Supplied project assets stay local; commit only their manifest/provenance (no signed URLs).
+/projects/*/public/*
+!/projects/*/public/.gitkeep
+/projects/*/private/
+# Credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+# Never casually add production binaries or archives to this lightweight repo.
+*.mp4
+*.mov
+*.webm
+*.mkv
+*.mp3
+*.wav
+*.m4a
+*.flac
+*.zip
+*.7z
+*.tar
+*.gz
+*.xz
 .DS_Store
 Thumbs.db
 .vscode/

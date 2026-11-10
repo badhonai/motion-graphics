@@ -1,46 +1,72 @@
-# Motion Graphics
+# Motion Graphics Studio
 
-A workspace for creating original, high-quality motion graphics with AI coding agents.
+A lightweight, **AI-neutral** workspace for creating a different, original motion film each time. Built from the reference research and production lessons in this project—not a collection of giant videos or a one-style animation template.
 
-## Toolchain
+**Any coding assistant:** start with [`AGENTS.md`](AGENTS.md). No Claude subscription, proprietary agent runtime or voice API is required.
 
-- **Remotion:** Build and render programmatic videos with React.
-- **HyperFrames:** Create HTML/GSAP-based motion-graphics compositions.
-- **FFmpeg / FFprobe:** Cut, process, inspect, and export media.
-- **OpenAI Whisper:** Transcribe speech and generate captions.
-- **yt-dlp:** Download permitted reference media for analysis.
+## Quick start
 
-See [setup.md](setup.md) for installation and smoke tests. See [taste.md](taste.md) for reference analysis and creative standards. AI agents must follow [agents.md](agents.md).
+Node 20.19+ (22 LTS recommended), npm, Git, FFmpeg/ffprobe and Chrome's Linux system libraries are required. See [setup](docs/SETUP.md).
 
-## Project structure
-
-```text
-motion-graphics/
-├── raw/          # Original footage, images, audio, fonts, and source assets
-├── reference/    # Inspiration, examples, storyboards, and visual references
-├── exports/      # Rendered previews and final deliverables
-├── agents.md     # Instructions and workflow for AI agents
-├── setup.md      # Toolchain installation and verification
-├── taste.md      # Creative taste and reference-study rules
-└── README.md     # Project overview and usage notes
+```bash
+npm ci
+npx remotion browser ensure
+npm run doctor
+npm test
+npm run typecheck
+npm run build:check
+npm run new -- my-film
+# Fill projects/my-film/brief.md, storyboard.md and assets.json first.
+npm run studio -- my-film
+npm run still -- my-film --frame=120
+npm run render -- my-film
+npm run qa -- my-film
 ```
 
-## Folder conventions
+Studio opens on port 3000; use `--port=3001` for another project. Generated source is in `projects/my-film/`. Local output is in ignored `renders/my-film/`. Never run a second npm install inside each project.
 
-### `raw/`
-Keep original assets here. Preserve source filenames where practical. Do not overwrite originals. Organize larger collections into descriptive subfolders.
+### Small engineering smoke test
 
-### `reference/`
-Store inspiration, screenshots, storyboards, style frames, brand guidelines, and reference-analysis notes. Include source links or short notes when useful. Do not claim to have studied references that are not present or accessible.
+```bash
+npm run render -- starter --frames=0-11 --scale=0.25
+npm run qa -- starter --frames=0-11
+```
 
-### `exports/`
-Store rendered previews and final deliverables. Use descriptive filenames that include the project or composition name and, when useful, a version number. Keep editable project files with their relevant project source rather than mixing them with final exports.
+This tests the pipeline, **not** a finished creative film. Full production still needs visual/audio review and a new concept.
 
-## Working principles
+## Repository map
 
-- Keep source assets separate from generated and exported files.
-- Preserve the user's information, voice, brand, and project identity.
-- Take inspiration from references without copying distinctive creative work.
-- Prefer reusable components, clear naming, and maintainable project structure.
-- Verify timing, typography, layout, audio, and render quality before calling an export final.
-- Do not commit large generated renders, downloaded reference media, dependency folders, or caches unless explicitly required. Use Git LFS or external storage for large binary assets when appropriate.
+```text
+AGENTS.md                 Canonical instructions for any AI
+CLAUDE.md / GEMINI.md      Thin pointers, not competing workflows
+.agents/skills/            Four curated direction/choreography/engineering/sound-QA skills
+docs/                     Setup, workflow, taste, QA, security and production lessons
+  research/               Distilled findings, immutable source pointers and notices
+templates/starter/        Small frame-clock/font/integration fixture + planning documents
+projects/<slug>/           Your separately scoped film source and brief
+tools/                    Generator, preview/render/QA, checks and optional audio master
+tests/                    Built-in Node tests
+public/fonts/             One small licensed shared font (OFL retained)
+.github/workflows/        Source checks and an optional manual render smoke
+```
+
+Excluded from Git: `local/`, `raw/`, `exports/`, `reference/`, `renders/`, supplied project media, caches, model weights, credentials and production archives. The previous films/research cache are preserved locally under `local/production-workspace/`; that folder is not part of the public checkout. Old Git history is preserved, not force-rewritten.
+
+## The reusable creative workflow
+
+**Brief → three concepts → art direction → scene/cue table → key states → motion → sound → correction loops → final encode/QA → honest delivery.**
+
+- [Full workflow](docs/WORKFLOW.md)
+- [Design principles](docs/DESIGN.md)
+- [QA and review limits](docs/QA.md)
+- [Research and sources](docs/research/README.md)
+- [Tested production lessons](docs/DECISIONS.md)
+- [Actual rebuild validation](docs/VALIDATION.md)
+- [Assets, fonts and audio](docs/ASSETS.md)
+- [Security/public-repo rules](docs/SECURITY.md)
+
+Remotion is the clock. Framer Motion receives explicit frame-derived transforms/easing; this is an application pattern that must be tested, not an official integration. PNG capture, explicit `swangle`, matching Remotion versions and fresh/reverse seek tests are deliberate defaults from production experience.
+
+## Scope / licenses
+
+No creator media, client marks, narration, full upstream repositories or finished exports are bundled. Research links are references, not permission to copy. Eleven upstream MIT notices are retained for attribution; their media are not covered. Shared Inter is under its included SIL OFL. This repository does not make a new blanket license grant over third-party material or generated client work. Check Remotion's current license for your use case.
