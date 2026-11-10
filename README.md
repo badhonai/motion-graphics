@@ -57,6 +57,7 @@ Excluded from Git: `local/`, `raw/`, `exports/`, `reference/`, `renders/`, suppl
 **Brief → three concepts → art direction → scene/cue table → key states → motion → sound → correction loops → final encode/QA → honest delivery.**
 
 - [Full workflow](docs/WORKFLOW.md)
+- [Optional visual-specialist handoff](docs/DELEGATION.md)
 - [Design principles](docs/DESIGN.md)
 - [QA and review limits](docs/QA.md)
 - [Research and sources](docs/research/README.md)
@@ -69,4 +70,7 @@ Remotion is the clock. Framer Motion receives explicit frame-derived transforms/
 
 ## Scope / licenses
 
-No creator media, client marks, narration, full upstream repositories or finished exports are bundled. Research links are references, not permission to copy. Eleven upstream MIT notices are retained for attribution; their media are not covered. Shared Inter is under its included SIL OFL. This repository does not make a new blanket license grant over third-party material or generated client work. Check Remotion's current license for your use case.
+No creator/reference media, narration, full upstream repositories or finished exports are bundled. Explicit GitHub visual handoffs may include only the small, declared, hash-checked client logo PNGs described in docs/ASSETS.md. Research links are references, not permission to copy. Eleven upstream MIT notices are retained for attribution; their media are not covered. Shared Inter is under its included SIL OFL. This repository does not make a new blanket license grant over third-party material or generated client work. Check Remotion's current license for your use case.
+
+## Current prepared project
+[Fluton — Public Rails. Private Actions.](projects/fluton-private-actions/README.md): 30s/1080p60, ready for an optional Claude visual-only pass. Story/timing/facts/assets are prepared; visuals remain an explicit placeholder until that pass returns. This is not a finished/rendered film.

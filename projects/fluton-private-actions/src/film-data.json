@@ -1,0 +1,129 @@
+{
+  "title": "Public Rails. Private Actions.",
+  "fps": 60,
+  "frames": 1800,
+  "durationSeconds": 30,
+  "voiceStatus": "script-only; windows are planning cues, not word-aligned to a recording",
+  "safeAreas": {
+    "mainArtworkBottom": 880,
+    "captionTop": 916,
+    "captionLineHeight": 42,
+    "finalNoticeTop": 1028,
+    "horizontalMargin": 96
+  },
+  "palette": {
+    "ink": "#09090B",
+    "white": "#F8FAFC",
+    "green": "#05DF72",
+    "blue": "#2B63D9"
+  },
+  "finalNotice": "TESTNET ONLY · NO REAL FUNDS",
+  "scenes": [
+    {
+      "id": "exposure",
+      "startFrame": 0,
+      "endFrameExclusive": 180,
+      "background": "#09090B",
+      "foreground": "#F8FAFC",
+      "headline": "MORE THAN YOU INTEND.",
+      "kicker": "PUBLIC ACTIVITY",
+      "voiceover": "Public chains can reveal more than you intend.",
+      "captionLines": [
+        "Public chains can reveal more than you intend."
+      ],
+      "visualMechanism": "An observer scan turns three public action cards into a readable trail; use no balances, addresses or fake UI.",
+      "keyStateFrame": 72
+    },
+    {
+      "id": "intent",
+      "startFrame": 180,
+      "endFrameExclusive": 360,
+      "background": "#05DF72",
+      "foreground": "#09090B",
+      "headline": "A DIFFERENT EXECUTION LAYER.",
+      "kicker": "FLUTON",
+      "voiceover": "Fluton is building confidential execution.",
+      "captionLines": [
+        "Fluton is building confidential execution."
+      ],
+      "visualMechanism": "The trail becomes an intention card, then a layered cutaway; this is not a repeated privacy shutter from the old film.",
+      "keyStateFrame": 252
+    },
+    {
+      "id": "fhe",
+      "startFrame": 360,
+      "endFrameExclusive": 630,
+      "background": "#2B63D9",
+      "foreground": "#F8FAFC",
+      "headline": "COMPUTE ON ENCRYPTED VALUES.",
+      "kicker": "FHE",
+      "voiceover": "FHE lets contracts compute on encrypted values.",
+      "captionLines": [
+        "FHE lets contracts compute on encrypted values."
+      ],
+      "visualMechanism": "Sealed reserve tiles move through an addition/comparison mechanism and remain sealed throughout. FHE concerns encrypted state, not a public view of note secrets.",
+      "keyStateFrame": 444
+    },
+    {
+      "id": "zk",
+      "startFrame": 630,
+      "endFrameExclusive": 900,
+      "background": "#09090B",
+      "foreground": "#F8FAFC",
+      "headline": "PROVE VALIDITY.",
+      "kicker": "ZERO-KNOWLEDGE PROOFS",
+      "voiceover": "Zero-knowledge proofs check valid actions without exposing private note details.",
+      "captionLines": [
+        "Zero-knowledge proofs check valid actions without exposing private",
+        "note details."
+      ],
+      "visualMechanism": "A private note chamber emits a small proof; a mechanical check validates that proof without opening the chamber. Different composition and movement from FHE.",
+      "keyStateFrame": 720
+    },
+    {
+      "id": "notes",
+      "startFrame": 900,
+      "endFrameExclusive": 1200,
+      "background": "#F8FAFC",
+      "foreground": "#09090B",
+      "headline": "VALUE MOVES AS PRIVATE NOTES.",
+      "kicker": "INSIDE THE POOL",
+      "voiceover": "Inside the pool, value moves as private notes.",
+      "captionLines": [
+        "Inside the pool, value moves as private notes."
+      ],
+      "visualMechanism": "Two sealed note inputs are consumed; three sealed output notes are created on a different ledger plane. These are illustrative note objects, not displayed balances or proof internals.",
+      "keyStateFrame": 1020
+    },
+    {
+      "id": "boundaries",
+      "startFrame": 1200,
+      "endFrameExclusive": 1500,
+      "background": "#2B63D9",
+      "foreground": "#F8FAFC",
+      "headline": "PRIVACY HAS BOUNDARIES.",
+      "kicker": "PUBLIC ENTRY / PRIVATE INTERIOR / PUBLIC EXIT",
+      "voiceover": "Deposits and withdrawals still reveal public information.",
+      "captionLines": [
+        "Deposits and withdrawals still reveal public information."
+      ],
+      "visualMechanism": "An architectural section separates public entry/exit receipts from a private interior. Show public labels AMOUNT / TOKEN / ADDRESS at the boundary, not inside. Do not imply all senders are always hidden.",
+      "keyStateFrame": 1320
+    },
+    {
+      "id": "brand",
+      "startFrame": 1500,
+      "endFrameExclusive": 1800,
+      "background": "#09090B",
+      "foreground": "#F8FAFC",
+      "headline": "PUBLIC RAILS. PRIVATE ACTIONS.",
+      "kicker": "fluton.io",
+      "voiceover": "Fluton. Public rails. Private actions. Explore the testnet.",
+      "captionLines": [
+        "Fluton. Public rails. Private actions. Explore the testnet."
+      ],
+      "visualMechanism": "Use the exact white wordmark and optional exact small logomark. Flat graphic resolution; no repeating the old dimensional logo-docking finale. Settle by frame 1680 and hold through 1799.",
+      "keyStateFrame": 1620
+    }
+  ]
+}

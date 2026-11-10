@@ -41,6 +41,17 @@ export function assetDir(id, dir) {
   const dest = path.join(ROOT,'.cache',id,'public'); fs.rmSync(dest,{recursive:true,force:true}); fs.mkdirSync(dest,{recursive:true});
   fs.cpSync(path.join(ROOT,'public'), dest, {recursive:true, dereference:true});
   if (fs.existsSync(path.join(dir,'public'))) fs.cpSync(path.join(dir,'public'),dest,{recursive:true,dereference:true});
+  const manifestFile=path.join(dir,'assets.json');
+  const bundled=fs.existsSync(manifestFile)?JSON.parse(fs.readFileSync(manifestFile,'utf8')).bundled||[]:[];
+  for(const asset of bundled){
+    if(!/^brand\/[A-Za-z0-9._-]+\.png$/.test(asset.source||'')||!/^brand\/[A-Za-z0-9._-]+\.png$/.test(asset.publicPath||'')||!asset.permission)throw new Error('Bundled assets must be declared flat brand/*.png files with a rights note.');
+    const src=inside(dir,asset.source),real=fs.realpathSync(src),brand=path.join(dir,'brand');
+    if(!real.startsWith(brand+path.sep))throw new Error('Bundled brand asset escapes its project.');
+    const data=fs.readFileSync(real);
+    if(data.length>64*1024||!data.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error('Bundled asset must be a PNG <=64 KiB.');
+    if(crypto.createHash('sha256').update(data).digest('hex')!==asset.sha256)throw new Error('Bundled brand hash mismatch: '+asset.source);
+    const target=inside(dest,asset.publicPath);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,data);
+  }
   return dest;
 }
 export function reportPaths(id, opt) {
@@ -57,7 +68,7 @@ export function fingerprint(dir) {
     if(fs.statSync(base).isDirectory()){for(const name of fs.readdirSync(base).sort())add(path.join(base,name),label+'/'+name);}
     else{hash.update(label+'\0');hash.update(fs.readFileSync(base));}
   };
-  for(const name of ['project.json','src','public'])add(path.join(dir,name),name);
+  for(const name of ['project.json','src','public','assets.json','brand'])add(path.join(dir,name),name);
   add(path.join(ROOT,'public'),'shared-public');add(path.join(ROOT,'package-lock.json'),'package-lock.json');
   return hash.digest('hex');
 }

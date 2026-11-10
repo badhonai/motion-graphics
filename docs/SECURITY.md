@@ -1,6 +1,6 @@
 # Public repository boundaries
 
-This is source/process, not media storage. Keep raw, exports, reference downloads, renders, ZIPs, client marks, supplied narration, local account metadata, cache/model weights and credentials out of Git. Keep permitted project media under its ignored public/ directory; commit only a non-sensitive assets.json with relative path/hash/rights. The shared OFL font is the one deliberate small binary exception.
+This is source/process, not media storage. Keep raw, exports, reference downloads, renders, ZIPs, client marks, supplied narration, local account metadata, cache/model weights and credentials out of Git. Keep permitted project media under its ignored public/ directory; commit only a non-sensitive assets.json with relative path/hash/rights. The shared OFL font and explicitly declared, hash-checked brand PNGs <=64 KiB for GitHub handoffs are the deliberate small binary exceptions. See docs/ASSETS.md; this is not permission to upload arbitrary client media.
 
 Never put tokens in source, Git remote URLs, Git config, logs, screenshots, manifests or archives. If a credential appears in chat, use only the authorized destination/task and recommend revocation/rotation. Prefer a secret manager or environment supplied by the host. Do not write example real-looking keys.
 

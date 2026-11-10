@@ -15,3 +15,6 @@ No raw/reference footage, client branding, past narration or creator soundtracks
 python3 tools/master-audio.py --picture renders/my-film/my-film.mp4 --mix projects/my-film/public/mix.wav --output renders/my-film/my-film-final.mp4
 ```
 The output must differ from both inputs. The tool requires PCM audio, copies the picture, measures two-pass loudness, encodes stereo AAC once, checks frame count/full decode and writes a separate master report. Generic project QA checks its own original render/report; inspect the separate master report and encoded final samples when delivering a mastered file.
+
+## Small GitHub handoff assets (explicit exception)
+When a user requests a GitHub-based brand project, essential user-supplied logo PNGs may be committed under projects/<slug>/brand/ (each <=64 KiB), declared in assets.json.bundled with source, publicPath, exact SHA-256 and rights note. The root runner verifies and copies only those declared PNGs to cache/public. This avoids base64 payloads in model context and avoids asking the visual specialist to recreate/download the logo. The exception does not cover narration, photos, raw/reference footage, music, outputs or general trademark rights; normal project public/ media remains ignored.

@@ -2,6 +2,9 @@
 
 This repository is an **AI-neutral motion-graphics studio**, not a gallery or a paid-agent subscription. Follow the user's current brief and your host's higher-priority policies. Tool names/capabilities vary: adapt these instructions, never fabricate tools, reviews or results.
 
+## Optional role-split mode
+Default is solo: the active assistant can own the whole film. If a project explicitly declares `workflowMode: visual-handoff`, read its AGENTS.md and CLAUDE-HANDOFF.md first. Those provide a compact frozen brief and a narrower edit scope. The visual specialist does NOT repeat story/research/audio/render/delivery work assigned to the orchestrator, and need not load every general document/skill unless blocked. See docs/DELEGATION.md. This mode is opt-in per project, not a requirement to use Claude on every film.
+
 ## Load in this order
 1. `README.md` — commands and layout.
 2. `docs/WORKFLOW.md` — brief → concept → design → motion → sound → review → delivery.

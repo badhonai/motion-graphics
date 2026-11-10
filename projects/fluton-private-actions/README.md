@@ -1,0 +1,31 @@
+# Fluton — Public Rails. Private Actions.
+
+**Prepared for visual implementation, not a finished film.** 30 seconds · 1920×1080 · 60 fps · 1800 frames.
+
+This project uses optional split mode: the orchestrator prepared research/story/copy/timing/assets and will own audio/render/QA/delivery. Claude is invited only for visual/code implementation.
+
+## Give Claude this
+[CLAUDE-PROMPT.md](CLAUDE-PROMPT.md) is the short copy/paste message. [CLAUDE-HANDOFF.md](CLAUDE-HANDOFF.md) is the complete compact visual brief. Project [AGENTS.md](AGENTS.md) defines exact editable/locked paths. Source [film-data.json](src/film-data.json) is authoritative for scene timing and copy.
+
+## Already prepared
+- Seven-scene story and fixed frame windows; actual dimension/rate/entry wiring.
+- Official-source fact check, limitations and testnet guardrails.
+- Two small original supplied Fluton PNGs with exact hashes, not re-created logos.
+- Shared local Inter, full-bleed background wrapper, content-safe clipping, draft caption infrastructure and final testnet notice.
+- Prepared voice script (53 words), sound cue plan, review frame list and orchestrator return plan.
+
+## Still pending
+- Claude's seven-scene visual implementation. src/Film.tsx is deliberately a clear placeholder, not someone else's work presented as Claude's.
+- Voice selection/recording, recording-aligned captions, original score and final audio mix. Nothing has been synthesized or billed.
+- Full production render, final-encoded frame review and human AV viewing/listening.
+
+## Run from repository root
+```bash
+npm ci
+npm run typecheck
+node tools/motion.mjs bundle fluton-private-actions
+npm run studio -- fluton-private-actions
+```
+The project preview currently shows a placeholder until the visual pass is implemented. Do not deliver it as a film.
+
+After Claude: send the PR/branch/ref to the orchestrator. See [production/RETURN-PLAN.md](production/RETURN-PLAN.md). No raw/reference/export media is committed.

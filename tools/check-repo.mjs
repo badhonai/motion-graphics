@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {ROOT,validateSpec} from './lib.mjs';
 let errors=[];let bytes=0;
@@ -12,6 +13,14 @@ for(const file of files){
  if(forbidden.test(file)||media.test(file)||/(^|\/)\.env(?:\.|$)/.test(file)&&!file.endsWith('.example'))errors.push('Forbidden tracked path: '+file);
  const blob=execFileSync('git',['show',':'+file],{cwd:ROOT});const size=blob.length;bytes+=size;if(size>1024*1024)errors.push('Tracked file exceeds 1 MiB: '+file);
  if(file.includes('/public/')&&!file.endsWith('/.gitkeep'))errors.push('Project media should stay local: '+file);
+ if(file.endsWith('.png')){
+  const m=/^(projects\/[a-z][a-z0-9-]*)\/(brand\/[^/]+\.png)$/.exec(file);
+  if(!m||size>64*1024||!blob.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))errors.push('Unexpected/oversized binary asset: '+file);
+  else{
+   try{const manifest=JSON.parse(execFileSync('git',['show',':'+m[1]+'/assets.json'],{cwd:ROOT,encoding:'utf8'}));const item=(manifest.bundled||[]).find(x=>x.source===m[2]);if(!item||!item.permission||item.sha256!==crypto.createHash('sha256').update(blob).digest('hex'))errors.push('Unverified brand PNG: '+file);}catch{errors.push('Missing staged asset manifest for '+file);}
+  }
+  continue;
+ }
  if(file.endsWith('.woff2')){if(!file.startsWith('public/fonts/'))errors.push('Unexpected binary font: '+file);continue;}
  const text=blob.toString('utf8');if(secrets.some(r=>r.test(text)))errors.push('Potential credential: '+file);
  if(file.endsWith('.md'))for(const m of text.matchAll(/\]\(([^)]+)\)/g)){
