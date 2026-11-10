@@ -5,7 +5,7 @@
 This project uses optional split mode: the orchestrator prepared research/story/copy/timing/assets and will own audio/render/QA/delivery. Claude is invited only for visual/code implementation.
 
 ## Give Claude this
-[CLAUDE-PROMPT.md](CLAUDE-PROMPT.md) is the short copy/paste message. [CLAUDE-HANDOFF.md](CLAUDE-HANDOFF.md) is the complete compact visual brief. Project [AGENTS.md](AGENTS.md) defines exact editable/locked paths. Source [film-data.json](src/film-data.json) is authoritative for scene timing and copy.
+The short copy/paste message is in `CLAUDE-PROMPT.md` (also printed in the orchestrator chat). [CLAUDE-HANDOFF.md](CLAUDE-HANDOFF.md) is the complete compact visual brief. Project [AGENTS.md](AGENTS.md) defines exact editable/locked paths. Source [film-data.json](src/film-data.json) is authoritative for scene timing and copy.
 
 ## Already prepared
 - Seven-scene story and fixed frame windows; actual dimension/rate/entry wiring.
