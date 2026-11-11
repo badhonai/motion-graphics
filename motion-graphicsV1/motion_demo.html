@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Motion Reel — 30s Loop</title>
+<style>
+  html,body{margin:0;height:100%;background:#05080D;overflow:hidden}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{width:1920px;height:1080px;flex:0 0 auto;transform-origin:center center;
+         border-radius:6px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.75)}
+  canvas{display:block;width:1920px;height:1080px}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage"><canvas id="cv" width="1920" height="1080"></canvas></div></div>
+<script>
+"use strict";
+/* stage, palette, easing */
+const W=1920,H=1080,cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const stage=document.getElementById('stage');
+const BG='#070A0F',INK='#DCE6F5',P=['#4CC9F0','#F72585','#FFD166','#7B61FF'];
+const DUR=30,SCENE=6;
+const cl=v=>v<0?0:v>1?1:v, lerp=(a,b,t)=>a+(b-a)*t;
+const EASE={
+  outCubic:t=>1-(1-t)**3,
+  inOutCubic:t=>t<.5?4*t*t*t:1-(-2*t+2)**3/2,
+  outExpo:t=>t>=1?1:1-2**(-10*t),
+  inOutQuint:t=>t<.5?16*t**5:1-(-2*t+2)**5/2,
+  outBack:t=>1+2.70158*(t-1)**3+1.70158*(t-1)**2,
+  inOutSine:t=>-(Math.cos(Math.PI*t)-1)/2
+};
+const hex=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16));
+const rgba=(h,a)=>'rgba('+hex(h).join(',')+','+a+')';
+function rr(x,y,w,h,r){const k=Math.min(r,Math.abs(w)/2,Math.abs(h)/2);
+  ctx.beginPath();ctx.moveTo(x+k,y);ctx.arcTo(x+w,y,x+w,y+h,k);ctx.arcTo(x+w,y+h,x,y+h,k);
+  ctx.arcTo(x,y+h,x,y,k);ctx.arcTo(x,y,x+w,y,k);ctx.closePath();}
+let BA=1; const ga=v=>{ctx.globalAlpha=BA*v;};
+
+/* fit the 16:9 stage into the window */
+function fit(){stage.style.transform='scale('+Math.min(innerWidth/W,innerHeight/H)+')';}
+addEventListener('resize',fit); fit();
+
+/* backdrop */
+const bgGrad=(()=>{const g=ctx.createRadialGradient(W*0.5,H*0.42,60,W*0.5,H*0.5,1250);
+  g.addColorStop(0,'#101927');g.addColorStop(1,BG);return g;})();
+function backdrop(t){
+  ctx.globalAlpha=1;ctx.fillStyle=bgGrad;ctx.fillRect(0,0,W,H);
+  const a=t/DUR*Math.PI*2,gx=W/2+Math.cos(a)*420,gy=H/2+Math.sin(a)*230;
+  const g=ctx.createRadialGradient(gx,gy,0,gx,gy,640);
+  g.addColorStop(0,rgba(P[3],0.15));g.addColorStop(1,rgba(P[3],0));
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+}
+
+/* scene 1 — kinetic wordmark assembling letter by letter */
+const WORD='MOTION',LR=[0,1,2,3,1,2],FONT='800 300px "Segoe UI",Inter,system-ui,sans-serif';
+let LAY=[];
+function layout(){ctx.font=FONT;const ws=[...WORD].map(c=>ctx.measureText(c).width+18);
+  let x=-ws.reduce((a,b)=>a+b,0)/2;
+  LAY=ws.map(w=>{const c=x+w/2;x+=w;return c;});}
+layout();
+function scene1(p){
+  const cx=W/2,cy=H/2-10;
+  ctx.font=FONT;ctx.textAlign='center';ctx.textBaseline='middle';
+  [...WORD].forEach((ch,i)=>{
+    const q=cl((p-i*0.075)/0.55),pop=EASE.outBack(q),f=cl((p-i*0.075)/0.3);
+    const out=EASE.inOutCubic(cl((p-0.87)/0.13));
+    ctx.save();ga(f*(1-out));
+    ctx.translate(cx+LAY[i],cy+(1-pop)*320-out*220);
+    ctx.rotate((1-EASE.outCubic(q))*0.42*(i%2?1:-1));
+    ctx.fillStyle=P[LR[i]];ctx.fillText(ch,0,0);ctx.restore();
+  });
+  const sb=cl((p-0.5)/0.32),sw=1380*EASE.inOutQuint(sb);
+  if(sw>0){
+    const g=ctx.createLinearGradient(cx-700,0,cx+700,0);
+    g.addColorStop(0,rgba(P[0],0));g.addColorStop(.45,rgba(P[0],1));g.addColorStop(1,rgba(P[1],1));
+    ga(EASE.inOutSine(sb)*0.9);ctx.fillStyle=g;ctx.fillRect(cx-sw/2,cy+178,sw,6);
+  }
+  const cp=cl((p-0.6)/0.32);
+  if(cp>0){ga(cp);ctx.font='500 38px ui-monospace,Consolas,monospace';
+    ctx.textAlign='center';ctx.fillStyle=rgba(P[0],0.85);
+    ctx.fillText('S H O W R E E L   /   2 0 2 6',cx,cy+252+(1-EASE.outCubic(cp))*24);}
+}
+
+/* scene 2 — morphing geometry in orbit */
+const ORB=[[0,0],[1,1.7],[2,3.2],[3,4.9]];
+function scene2(p){
+  const cx=W/2,cy=H/2,T=p*6,gi=EASE.outExpo(cl(p/0.35));
+  for(let k=0;k<3;k++){
+    const R=(120+k*95)*gi;
+    ctx.beginPath();
+    for(let j=0;j<=140;j++){
+      const a=j/140*Math.PI*2;
+      const m=1+0.14*Math.sin(a*3+T*1.7+k*1.2)+0.07*Math.cos(a*5-T*2.3+k);
+      const x=cx+Math.cos(a)*R*m,y=cy+Math.sin(a)*R*m;
+      j?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.closePath();ga(0.9-k*0.22);
+    ctx.strokeStyle=P[(k+1)%4];ctx.lineWidth=6-k*1.5;ctx.stroke();
+  }
+  const rg=lerp(120,430,EASE.inOutCubic(cl((p-0.08)/0.72)));
+  ORB.forEach(([ci,ph],i)=>{
+    const a=T*1.05+ph,x=cx+Math.cos(a)*rg,y=cy+Math.sin(a)*rg*0.6;
+    const n=3+i,s=36+10*Math.sin(T*2.5+i);
+    ctx.beginPath();
+    for(let j=0;j<n;j++){
+      const aa=a*2.1+j/n*Math.PI*2;
+      j?ctx.lineTo(x+Math.cos(aa)*s,y+Math.sin(aa)*s):ctx.moveTo(x+Math.cos(aa)*s,y+Math.sin(aa)*s);
+    }
+    ctx.closePath();ga(0.95);ctx.fillStyle=P[ci];ctx.fill();
+    ga(0.28);ctx.strokeStyle=P[ci];ctx.lineWidth=2;ctx.stroke();
+  });
+  ga(1);ctx.beginPath();ctx.arc(cx,cy,7+2*Math.sin(T*4),0,Math.PI*2);ctx.fillStyle=INK;ctx.fill();
+}
+
+/* scene 3 — chart drawing itself */
+const VALS=[0.42,0.66,0.35,0.8,0.55,0.94,0.7],VC=[0,1,2,3,0,1,2];
+function scene3(p){
+  const x0=300,x1=1620,y0=860,y1=300,ax=EASE.outCubic(cl(p/0.3));
+  const step=(x1-x0)/VALS.length,bw=92;
+  ctx.strokeStyle=rgba('#8FA3BF',0.3);ctx.lineWidth=2;
+  for(let i=0;i<=4;i++){
+    const y=lerp(y0,y1,i/4);
+    ga(ax*0.55);ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(lerp(x0,x1,ax),y);ctx.stroke();
+  }
+  ga(EASE.outCubic(cl((p-0.05)/0.3)));
+  ctx.fillStyle=rgba(INK,0.7);ctx.font='500 30px ui-monospace,Consolas,monospace';
+  ctx.textAlign='left';ctx.fillText('GROWTH / 2026',x0,y1-52);
+  VALS.forEach((v,i)=>{
+    const q=EASE.outBack(cl((p-0.1-i*0.055)/0.55)),h=(y0-y1)*v*q;
+    const x=x0+step*i+(step-bw)/2;
+    const g=ctx.createLinearGradient(0,y0-h,0,y0);
+    g.addColorStop(0,rgba(P[VC[i]],0.95));g.addColorStop(1,rgba(P[VC[i]],0.12));
+    ga(1);ctx.fillStyle=g;rr(x,y0-h,bw,h,12);ctx.fill();
+  });
+  const ln=EASE.inOutQuint(cl((p-0.42)/0.5));
+  if(ln>0){
+    const pts=VALS.map((v,i)=>[x0+step*i+step/2,y0-(y0-y1)*v,P[VC[i]]]),f=ln*(pts.length-1);
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    for(let i=1;i<pts.length;i++){
+      const s=cl(f-(i-1));if(s<=0)break;
+      ctx.lineTo(lerp(pts[i-1][0],pts[i][0],s),lerp(pts[i-1][1],pts[i][1],s));
+    }
+    ga(1);ctx.strokeStyle=INK;ctx.lineWidth=4;
+    ctx.shadowColor=rgba(P[0],0.9);ctx.shadowBlur=20;ctx.stroke();ctx.shadowBlur=0;
+    pts.forEach((pt,i)=>{
+      const d=cl(f-i);if(d<=0)return;
+      ctx.beginPath();ctx.arc(pt[0],pt[1],11*EASE.outBack(d),0,Math.PI*2);
+      ga(1);ctx.fillStyle=pt[2];ctx.fill();
+      ctx.strokeStyle=BG;ctx.lineWidth=5;ctx.stroke();
+    });
+  }
+}
+
+/* scene 4 — particle burst resolving into a grid */
+const GC=26,GR=15,GW=(GC-1)*46,GH=(GR-1)*38;
+const PARTS=(()=>{
+  const gx=W/2-GW/2,gy=H/2-GH/2,out=[];
+  for(let r=0;r<GR;r++)for(let c=0;c<GC;c++){
+    const a=Math.random()*Math.PI*2,rad=220+Math.random()*420;
+    out.push({tx:gx+c*46,ty:gy+r*38,bx:W/2+Math.cos(a)*rad*1.5,by:H/2+Math.sin(a)*rad,
+      d:Math.random()*0.2,s:2.5+Math.random()*3.5,col:P[(c+r)%4]});
+  }
+  return out;
+})();
+function scene4(p){
+  const burst=EASE.outExpo(cl(p/0.38)),form=cl((p-0.18)/0.64),fade=1-cl((p-0.9)/0.1)*0.4;
+  for(const pt of PARTS){
+    const k=EASE.inOutQuint(cl((form-pt.d)/(1-pt.d)));
+    const x=lerp(lerp(W/2,pt.bx,burst),pt.tx,k),y=lerp(lerp(H/2,pt.by,burst),pt.ty,k);
+    ga(cl(burst*1.4)*fade*(0.45+0.55*k));
+    ctx.fillStyle=pt.col;ctx.beginPath();ctx.arc(x,y,pt.s*(1-0.3*k),0,Math.PI*2);ctx.fill();
+  }
+  ga(EASE.inOutSine(cl((p-0.55)/0.4))*0.16);
+  ctx.strokeStyle=INK;ctx.lineWidth=1.5;
+  for(let i=1;i<=4;i++){
+    const y=H/2-GH/2+GH*i/5;
+    ctx.beginPath();ctx.moveTo(W/2-GW/2,y);ctx.lineTo(W/2+GW/2,y);ctx.stroke();
+  }
+}
+
+/* scene 5 — end card */
+function scene5(p){
+  const cx=W/2,cy=H/2,rp=EASE.inOutQuint(cl(p/0.55));
+  if(rp>0){ga(0.45*rp);ctx.strokeStyle=P[3];ctx.lineWidth=2;ctx.beginPath();
+    ctx.arc(cx,cy,lerp(90,600,rp),-Math.PI*0.7,-Math.PI*0.7+rp*Math.PI*2);ctx.stroke();}
+  const words=['Made','by','Sai'],cols=[INK,P[0],P[2]],gap=40;
+  ctx.font='800 168px "Segoe UI",Inter,system-ui,sans-serif';
+  ctx.textAlign='left';ctx.textBaseline='middle';
+  const ws=words.map(w=>ctx.measureText(w).width);
+  let x=cx-(ws.reduce((a,b)=>a+b,0)+gap*(words.length-1))/2;
+  words.forEach((w,i)=>{
+    const q=cl((p-0.08-i*0.13)/0.62),e=EASE.outExpo(q);
+    ctx.save();ctx.beginPath();ctx.rect(x-8,cy-120,ws[i]+16,240);ctx.clip();
+    ga(q);ctx.translate(0,(1-e)*130);
+    ctx.fillStyle=cols[i];ctx.fillText(w,x,cy);ctx.restore();
+    x+=ws[i]+gap;
+  });
+  const lp=cl((p-0.55)/0.35);
+  if(lp>0){const g=ctx.createLinearGradient(cx-260,0,cx+260,0);
+    g.addColorStop(0,rgba(P[1],0));g.addColorStop(.5,rgba(P[1],1));g.addColorStop(1,rgba(P[0],0));
+    ga(EASE.inOutSine(lp));ctx.fillStyle=g;
+    ctx.fillRect(cx-260*EASE.inOutQuint(lp),cy+92,520*EASE.inOutQuint(lp),4);}
+  const dp=cl((p-0.72)/0.28);
+  for(let i=0;i<4;i++){
+    const d=cl((dp-i*0.07)/0.4);if(d<=0)continue;
+    ga(EASE.outCubic(d));ctx.fillStyle=P[i];ctx.beginPath();
+    ctx.arc(cx-57+i*38,cy+168,9*EASE.outBack(d),0,Math.PI*2);ctx.fill();
+  }
+  if(dp>0){ga(EASE.outCubic(dp)*0.8);ctx.font='500 30px ui-monospace,Consolas,monospace';
+    ctx.textAlign='center';ctx.fillStyle=rgba(INK,0.75);
+    ctx.fillText('MOTION REEL  ·  LOOPS EVERY 30 SECONDS',cx,cy-190);}
+}
+
+/* timeline: five scenes, eased crossfades, seamless loop */
+const SCENES=[scene1,scene2,scene3,scene4,scene5];
+function sceneAlpha(t,i){
+  if(i===4)return Math.min(cl((t-24)/0.5),cl((30.5-t)/0.5));
+  const s=i*SCENE;
+  return Math.min(i===0?cl(t/0.5):cl((t-s)/0.5),cl((s+SCENE+0.5-t)/0.5));
+}
+function hud(t){
+  ctx.globalAlpha=1;
+  const bw=520,x=W/2-bw/2,y=H-58;
+  ga(0.16);ctx.fillStyle=INK;rr(x,y,bw,4,2);ctx.fill();
+  ga(0.85);ctx.fillStyle=P[0];rr(x,y,Math.max(4,bw*(t/DUR)),4,2);ctx.fill();
+  for(let i=1;i<5;i++){ga(0.35);ctx.fillStyle=INK;ctx.fillRect(x+bw*i/5-1,y-5,2,14);}
+}
+function frame(t){
+  backdrop(t);
+  for(let i=0;i<5;i++){
+    const a=sceneAlpha(t,i);if(a<=0.002)continue;
+    const p=(i===4&&t<0.5)?1:cl((t-i*SCENE)/SCENE);
+    BA=a;ctx.save();ctx.translate(0,(1-a)*46*(i%2?-1:1));
+    SCENES[i](p);ctx.restore();
+  }
+  BA=1;hud(t);
+}
+const t0=performance.now();
+function loop(now){frame(((now-t0)/1000)%DUR);requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
